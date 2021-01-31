@@ -1,0 +1,112 @@
+{{> header }}
+<div class="flex-container panel-body">
+    <div class="textedit flex-container content-block">
+        <div class="place flex-container content-block">
+            <span class="smallfont">Alias</span>
+            <small class="label">{{link.alias}}</small>
+            <span class="smallfont">URL</span>
+            <small class="label">{{link.url}}</small>
+        </div>
+        <div class="flex-container content-block add-block">
+            <span class="smallfont marginplus30">Redirect to</span>
+            <small class="label label-text">{{link.redirect}}</small>
+        </div>
+        <div class="flex-container content-block add-block">
+            <span class="smallfont marginplus30">Total views</span>
+            <small class="label label-text">{{link.views}}</small>
+        </div>
+    </div>
+    <div class="tabs flex-container content-block">
+
+        {{#if baseUser.permissionsObject.read}}
+            <a href="{{routePath}}/edit/{{link.id}}" class="edittab btn-success btn">Edit</a>
+            <button onclick="showModal('Confirm deleting link: <b>{{link.alias}}</b>', '{{routePath}}/delete/{{link.id}}'); event.stopPropagation()"
+                    class="deltab btn-danger btn btn-lg">Delete
+            </button>
+        {{/if}}
+
+    </div>
+</div>
+<div class="flex-container content-block paddtop15">
+    <div class="flex-container block-link">
+        <div class="flex-container content-row-left-end">
+            <div class="gtco-logo">Views</div>
+            <div class="addsample-action addsample-but-small" onclick="setFastButtons(1, 'views')">1d</div>
+            <div class="addsample-action addsample-but-small" onclick="setFastButtons(3, 'views')">3d</div>
+            <div class="addsample-action addsample-but-small" onclick="setFastButtons(7, 'views')">7d</div>
+            <div class="addsample-action addsample-but-small" onclick="setFastButtons(30, 'views')">30d</div>
+        </div>
+        <div class="flex-container content-row-right">
+            <form class="flex-container content-both" action="{{routePath}}/{{link.id}}" method="get">
+                <div class="dateinput flex-blocks1 flex-container addsample-action">
+                    <label for="viewsStart">From: </label>
+                    <input type="date" value="{{viewsStart}}" name="viewsStart" class="tcal tcalInput" id="viewsStart">
+                </div>
+                <div class="dateinput flex-blocks1 flex-container addsample-action">
+                    <label for="viewsEnd">To: </label>
+                    <input type="date" value="{{viewsEnd}}" name="viewsEnd" class="tcal tcalInput" id="viewsEnd">
+                </div>
+                <input type="submit" class="addsample-action addsample-but" value="Calc">
+            </form>
+        </div>
+    </div>
+    <div class="flex-container block-link"></div>
+</div>
+<div class="histogramm-container" id="views_chart"></div>
+<!--
+<div class="flex-container content-block paddtop15">
+    <div class="flex-container block-link">
+        <div class="flex-container content-row-left-end">
+            <div class="gtco-logo"><a href="index.html">Source</a></div>
+        </div>
+        <div class="flex-container content-row-right">
+            <div class="dateinput flex-blocks1 flex-container addsample-action">
+                <label for="from1">From: </label>
+                <input type="date" name="calendar" class="tcal tcalInput" id="from1">
+            </div>
+            <div class="dateinput flex-blocks1 flex-container addsample-action">
+                <label for="to1">To: </label>
+                <input type="date" name="calendar" class="tcal tcalInput" id="to1">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="histogramm-container"></div>-->
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+    google.charts.load('current', {'packages': ['corechart']});
+    google.charts.setOnLoadCallback(drawCharts);
+
+    function drawCharts() {
+        drawViewsChart();
+    }
+
+    function drawViewsChart() {
+        let linkViewsData = false;
+        {{#if linkViewsData}}
+            linkViewsData = {{{linkViewsData}}};
+        {{/if}}
+
+        if (linkViewsData) {
+            let data = google.visualization.arrayToDataTable(linkViewsData);
+
+            let options = {
+                title: 'Views',
+                legend: {position: 'bottom'},
+                colors: ['#106AE5'],
+                vAxis: {
+                    gridlines: {count: -1}
+                },
+                hAxis: {gridlines: {count: 20}}
+            };
+
+            let chart = new google.visualization.AreaChart(document.getElementById('views_chart'));
+
+            chart.draw(data, options);
+        }
+    }
+</script>
+
+<script src="/js/scripts/link.js"></script>

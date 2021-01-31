@@ -1,0 +1,30 @@
+{
+	"development": {
+		"PORT": "3000",
+		"DB_LOGIN": "test",
+		"DB_PASSWORD": "test",
+		"DB_SCHEME": "",
+		"DB_NAME": "",
+		"DB_SESSIONS_NAME": "",
+		"DB_URL": "",
+		"JWT_SECRET": "secret",
+		"MONGO_SECRET": "mysecret",
+		"RENEW_TOKEN_URL" : "",
+		"LOGIN_URL": "http://localhost:8000/login/",
+		"TOKEN_CHECK_URL": "http://localhost:8000/api/v1/tokens/redirect/"
+	},
+	"production":{
+		"PORT": "8001",
+		"DB_LOGIN": "test",
+		"DB_PASSWORD": "test",
+		"DB_SCHEME": "",
+		"DB_NAME": "",
+		"DB_SESSIONS_NAME": "",
+		"DB_URL": "",
+		"JWT_SECRET": "",
+		"MONGO_SECRET": "",
+		"RENEW_TOKEN_URL" : "",
+		"LOGIN_URL": "",
+		"TOKEN_CHECK_URL": ""
+	}
+}
